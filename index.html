@@ -54,28 +54,10 @@
   --clay:0 6px 0 -1px var(--edge), 0 14px 26px -12px rgba(58,42,30,.45), inset 0 2px 0 rgba(255,255,255,.85);
   --clay-sm:0 4px 0 -1px var(--edge), 0 10px 18px -10px rgba(58,42,30,.35), inset 0 1px 0 rgba(255,255,255,.8);
 }
-@media (prefers-color-scheme:dark){:root{
-  --bg:#181F24; --bg2:#111820; --card:#212B31; --ink:#F6ECDC; --ink2:#A8B6B4; --ink3:#7C8A88;
-  --line:#31414A; --edge:#0E1418;
-  --teal:#49C4B1; --teal2:#6BDCC8; --gold:#F0B057; --coral:#F2887A; --sky:#7FBFD4;
-  --clay:0 6px 0 -1px var(--edge), 0 16px 30px -12px rgba(0,0,0,.7), inset 0 2px 0 rgba(255,255,255,.07);
-  --clay-sm:0 4px 0 -1px var(--edge), 0 10px 20px -10px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.06);
-}}
-:root[data-theme="dark"]{
-  --bg:#181F24; --bg2:#111820; --card:#212B31; --ink:#F6ECDC; --ink2:#A8B6B4; --ink3:#7C8A88;
-  --line:#31414A; --edge:#0E1418;
-  --teal:#49C4B1; --teal2:#6BDCC8; --gold:#F0B057; --coral:#F2887A; --sky:#7FBFD4;
-  --clay:0 6px 0 -1px var(--edge), 0 16px 30px -12px rgba(0,0,0,.7), inset 0 2px 0 rgba(255,255,255,.07);
-  --clay-sm:0 4px 0 -1px var(--edge), 0 10px 20px -10px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.06);
-}
-:root[data-theme="light"]{
-  --bg:#FBF1DF; --bg2:#F3E4C9; --card:#FFFBF2; --ink:#3A2A1E; --ink2:#7A6350; --ink3:#A0846A;
-  --line:#E7D5B6; --edge:#D9C09A;
-  --teal:#12756B; --teal2:#0C5C54; --gold:#E39A2E; --coral:#E4695A; --sky:#5FA8BD;
-  --clay:0 6px 0 -1px var(--edge), 0 14px 26px -12px rgba(58,42,30,.45), inset 0 2px 0 rgba(255,255,255,.85);
-  --clay-sm:0 4px 0 -1px var(--edge), 0 10px 18px -10px rgba(58,42,30,.35), inset 0 1px 0 rgba(255,255,255,.8);
-}
 
+
+/* Light only, on purpose: the whole thing is painted on cream paper. */
+:root{color-scheme:light}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;
@@ -87,23 +69,7 @@ body{margin:0;color:var(--ink);font-family:var(--body);font-size:16px;line-heigh
     radial-gradient(700px 500px at 50% 112%, color-mix(in srgb,var(--coral) 16%,transparent), transparent 62%),
     var(--paper-img) 0 0/380px repeat,
     var(--bg);}
-@media (prefers-color-scheme:dark){
-  body{background:
-    radial-gradient(1000px 560px at 88% -10%, color-mix(in srgb,var(--gold) 18%,transparent), transparent 62%),
-    radial-gradient(880px 640px at -14% 14%, color-mix(in srgb,var(--teal) 16%,transparent), transparent 58%),
-    linear-gradient(rgba(20,26,31,.90),rgba(20,26,31,.90)),
-    var(--paper-img) 0 0/380px repeat, var(--bg);}
-}
-:root[data-theme="dark"] body{background:
-  radial-gradient(1000px 560px at 88% -10%, color-mix(in srgb,var(--gold) 18%,transparent), transparent 62%),
-  radial-gradient(880px 640px at -14% 14%, color-mix(in srgb,var(--teal) 16%,transparent), transparent 58%),
-  linear-gradient(rgba(20,26,31,.90),rgba(20,26,31,.90)),
-  var(--paper-img) 0 0/380px repeat, var(--bg);}
-:root[data-theme="light"] body{background:
-  radial-gradient(1000px 560px at 88% -10%, color-mix(in srgb,var(--gold) 26%,transparent), transparent 62%),
-  radial-gradient(880px 640px at -14% 14%, color-mix(in srgb,var(--teal) 18%,transparent), transparent 58%),
-  radial-gradient(700px 500px at 50% 112%, color-mix(in srgb,var(--coral) 16%,transparent), transparent 62%),
-  var(--paper-img) 0 0/380px repeat, var(--bg);}
+
 img{max-width:100%;display:block}
 h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.1;margin:0;text-wrap:balance;letter-spacing:-.01em}
 p{margin:0}
@@ -131,7 +97,7 @@ a{color:inherit;text-decoration:none}
 body.book .tabs,body.book .bar{display:none}
 
 /* ---------- Places index ---------- */
-.findbar{position:sticky;top:62px;z-index:35;margin:0 -16px 12px;padding:10px 16px 8px;
+.findbar{position:sticky;top:var(--barh,62px);z-index:35;margin:0 -16px 12px;padding:10px 16px 8px;
   background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(10px)}
 .search{display:flex;align-items:center;gap:9px;background:var(--card);border:2px solid var(--edge);
   border-radius:14px;padding:0 12px;height:46px;box-shadow:var(--clay-sm)}
@@ -265,7 +231,7 @@ section{padding:34px 0 6px}
 .shead p{color:var(--ink2);font-size:.95rem}
 
 /* ================= DAY NAV ================= */
-.daynav{position:sticky;top:62px;z-index:40;margin:0 -16px 14px;padding:8px 16px;
+.daynav{position:sticky;top:var(--barh,62px);z-index:40;margin:0 -16px 14px;padding:8px 16px;
   display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;
   background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px)}
 .daynav::-webkit-scrollbar{display:none}
@@ -279,7 +245,7 @@ section{padding:34px 0 6px}
 
 /* ================= DAY CARD ================= */
 /* clear the sticky bar + day chips when jumping to a day */
-.day{scroll-margin-top:126px}
+.day{scroll-margin-top:calc(var(--barh,62px) + var(--navh,56px) + 8px)}
 .day{background:var(--card) var(--paper-img) 0 0/300px repeat;border:3px solid var(--edge);border-radius:var(--r);
   box-shadow:var(--clay);margin-bottom:18px;overflow:hidden}
 .day-h{display:flex;align-items:center;gap:12px;padding:14px 14px 10px}
@@ -389,6 +355,7 @@ footer small{font-size:.72rem;color:var(--ink3)}
   .an .tick svg{transform:scale(1);opacity:1;transition:none}
   #prog{display:none}
 }
+
 
 /* ================= THE PRINTED KEEPSAKE =================
    A cover and one page per day. Not the website on paper.
@@ -532,6 +499,13 @@ footer small{font-size:.72rem;color:var(--ink3)}
 
 <div id="book" aria-label="Storybook"></div>
 
+<div class="bar no-print">
+  <div class="bar-in">
+    <div class="mark">Hoor <i>&amp;</i> Alyaz · South Africa</div>
+    <button class="btn wide" id="pdf"><svg class="ico"><use href="#i-dl"/></svg>PDF</button>
+  </div>
+</div>
+
 <div id="print" aria-hidden="true"><section class="pg pg-cover">  <div class="pg-plate pg-plate-cover">    <img data-k="cover" alt="A storybook cover: palms and Table Mountain" />    <div class="pg-covertxt">      <div class="pg-kicker">A story for</div>      <h1 class="pg-h1">Hoor<br/>&amp; Alyaz</h1>      <div class="pg-sub">Ten days in South Africa</div>    </div>  </div>  <div class="pg-contents"><div class="pg-crow"><span class="pg-cwhere">Camps Bay</span><span class="pg-cdot"></span><span class="pg-cwhen">Days 1 to 3</span></div><div class="pg-crow"><span class="pg-cwhere">The bush</span><span class="pg-cdot"></span><span class="pg-cwhen">Day 4</span></div><div class="pg-crow"><span class="pg-cwhere">The Waterfront</span><span class="pg-cdot"></span><span class="pg-cwhen">Days 5 to 7</span></div><div class="pg-crow"><span class="pg-cwhere">Fly home</span><span class="pg-cdot"></span><span class="pg-cwhen">Day 8</span></div></div>  <div class="pg-belongs">    <div class="pg-blabel">This book belongs to</div>    <div class="pg-bline"></div>  </div>  <div class="pg-turn">Turn the page for Day One</div></section>
 <section class="pg">  <div class="pg-head"><svg class="pg-badge" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18.4" fill="#12756B"/><text x="20" y="27.6" text-anchor="middle" font-family="Fredoka" font-size="21" font-weight="600" fill="#FFFBF2">1</text></svg><span class="pg-pill">Nights 1 to 3 &middot; The Marly, Camps Bay</span></div>  <div class="pg-plate"><img data-k="camps2" alt="Hoor and Alyaz on Camps Bay beach, the Twelve Apostles behind them" /></div>  <h2 class="pg-title">Arrive &amp; settle</h2><div class="pg-rule"></div>  <div class="pg-blocks"><div class="pg-blk">  <div class="pg-time"><svg class="pg-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 18h20" stroke="#0C5C54" stroke-width="1.6" stroke-linecap="round"/><path d="M6 18a6 6 0 0 1 12 0" fill="none" stroke="#E39A2E" stroke-width="1.6"/><path d="M12 6.5V4M4.9 9.4L3.4 7.9M19.1 9.4l1.5-1.5" stroke="#E39A2E" stroke-width="1.5" stroke-linecap="round"/></svg><span>Morning</span></div>  <div class="pg-body"><div class="pg-label">Land and check in at The Marly</div>  <div class="pg-note">Airport to Camps Bay is about 30 minutes. Unpack, breathe.</div></div></div><div class="pg-blk">  <div class="pg-time"><svg class="pg-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.6" fill="none" stroke="#E39A2E" stroke-width="1.7"/><path d="M12 3.2v2.1M12 18.7v2.1M3.2 12h2.1M18.7 12h2.1M5.8 5.8l1.5 1.5M16.7 16.7l1.5 1.5M18.2 5.8l-1.5 1.5M7.3 16.7l-1.5 1.5" stroke="#E39A2E" stroke-width="1.5" stroke-linecap="round"/></svg><span>Afternoon</span></div>  <div class="pg-body"><div class="pg-label">Walk the beach and the strip</div><div class="pg-place"><svg class="pg-ring" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="#12756B" stroke-width="1.5"/></svg><span>Camps Bay Beach</span></div>  <div class="pg-note">Low-effort first day. Sand, palms, no transport needed.</div></div></div><div class="pg-blk">  <div class="pg-time"><svg class="pg-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.2 8.2 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z" fill="none" stroke="#0C5C54" stroke-width="1.6" stroke-linejoin="round"/><path d="M17.5 4.2l.7 1.7 1.8.2-1.4 1.2.5 1.8-1.6-1-1.6 1 .5-1.8-1.4-1.2 1.8-.2z" fill="#E39A2E"/></svg><span>Evening</span></div>  <div class="pg-body"><div class="pg-label">Early pizza dinner</div><div class="pg-place"><svg class="pg-ring" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="#12756B" stroke-width="1.5"/></svg><span>Pizza Shed</span></div>  <div class="pg-note">Fast and easy so Alyaz gets to bed on local time.</div></div></div></div><div class="pg-foot"></div></section>
 <section class="pg">  <div class="pg-head"><svg class="pg-badge" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18.4" fill="#12756B"/><text x="20" y="27.6" text-anchor="middle" font-family="Fredoka" font-size="21" font-weight="600" fill="#FFFBF2">2</text></svg><span class="pg-pill">Nights 1 to 3 &middot; The Marly, Camps Bay</span></div>  <div class="pg-plate"><img data-k="pengu2" alt="Hoor and Alyaz watching the penguins at Boulders Beach" /></div>  <h2 class="pg-title">Peninsula loop</h2><div class="pg-rule"></div>  <div class="pg-blocks"><div class="pg-blk">  <div class="pg-time"><svg class="pg-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 18h20" stroke="#0C5C54" stroke-width="1.6" stroke-linecap="round"/><path d="M6 18a6 6 0 0 1 12 0" fill="none" stroke="#E39A2E" stroke-width="1.6"/><path d="M12 6.5V4M4.9 9.4L3.4 7.9M19.1 9.4l1.5-1.5" stroke="#E39A2E" stroke-width="1.5" stroke-linecap="round"/></svg><span>Morning</span></div>  <div class="pg-body"><div class="pg-label">Chapman&#x27;s Peak with your driver</div><div class="pg-place"><svg class="pg-ring" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="#12756B" stroke-width="1.5"/></svg><span>Chapman&#x27;s Peak Drive</span></div>  <div class="pg-note">Your driver handles the toll, ask to stop at the pull-offs.</div></div></div><div class="pg-blk">  <div class="pg-time"><svg class="pg-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.6" fill="none" stroke="#E39A2E" stroke-width="1.7"/><path d="M12 3.2v2.1M12 18.7v2.1M3.2 12h2.1M18.7 12h2.1M5.8 5.8l1.5 1.5M16.7 16.7l1.5 1.5M18.2 5.8l-1.5 1.5M7.3 16.7l-1.5 1.5" stroke="#E39A2E" stroke-width="1.5" stroke-linecap="round"/></svg><span>Afternoon</span></div>  <div class="pg-body"><div class="pg-label">Penguins at Boulders Beach</div><div class="pg-place"><svg class="pg-ring" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="#12756B" stroke-width="1.5"/></svg><span>Boulders Beach Penguin Colony</span></div>  <div class="pg-note">Boardwalk, no climbing. Lunch nearby at The Peckish Penguin.</div></div></div><div class="pg-blk">  <div class="pg-time"><svg class="pg-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.2 8.2 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z" fill="none" stroke="#0C5C54" stroke-width="1.6" stroke-linejoin="round"/><path d="M17.5 4.2l.7 1.7 1.8.2-1.4 1.2.5 1.8-1.6-1-1.6 1 .5-1.8-1.4-1.2 1.8-.2z" fill="#E39A2E"/></svg><span>Evening</span></div>  <div class="pg-body"><div class="pg-label">Cape Point before the gates close</div><div class="pg-place"><svg class="pg-ring" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="#12756B" stroke-width="1.5"/></svg><span>Cape Point &amp; Cape of Good Hope</span></div>  <div class="pg-note">Funicular up. Keep the windows shut, baboons are bold.</div></div></div></div><div class="pg-foot"></div></section>
@@ -656,13 +630,7 @@ footer small{font-size:.72rem;color:var(--ink3)}
   <button data-go="info"><svg class="ico"><use href="#i-info"/></svg><span>Info</span></button>
 </nav>
 
-<div class="bar no-print">
-  <div class="bar-in">
-    <div class="mark">Hoor <i>&amp;</i> Alyaz · South Africa</div>
-    <button class="btn wide" id="pdf"><svg class="ico"><use href="#i-dl"/></svg>PDF</button>
-    <button class="btn" id="theme" aria-label="Toggle theme"><svg class="ico"><use href="#i-moon"/></svg></button>
-  </div>
-</div>
+
 
 
 
@@ -789,17 +757,10 @@ footer small{font-size:.72rem;color:var(--ink3)}
   var seen; try{ seen=localStorage.getItem("sa-seen"); }catch(e){}
   if(!seen && !reduce) openBook(); else { try{localStorage.setItem("sa-seen","1")}catch(e){} }
 
-  /* ---- theme ---- */
-  var tb=document.getElementById("theme");
-  function icon(t){ tb.innerHTML='<svg class="ico"><use href="#i-'+(t==="dark"?"sun":"moon")+'"/></svg>'; }
-  var saved; try{saved=localStorage.getItem("sa-t")}catch(e){}
-  if(saved){ root.setAttribute("data-theme",saved); icon(saved); }
-  else icon(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
-  tb.addEventListener("click",function(){
-    var c=root.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
-    var n=c==="dark"?"light":"dark"; root.setAttribute("data-theme",n); icon(n);
-    try{localStorage.setItem("sa-t",n)}catch(e){}
-  });
+  /* No theme switch: this is a watercolour storybook and it is always light.
+     Clear any data-theme a previous visit may have stored. */
+  root.removeAttribute("data-theme");
+  try{ localStorage.removeItem("sa-t"); }catch(e){}
   document.getElementById("pdf").addEventListener("click",function(){ window.print(); });
 
   /* ---- day nav ---- */
@@ -832,6 +793,21 @@ footer small{font-size:.72rem;color:var(--ink3)}
   }
 
 
+
+  /* The sticky offsets have to come from the real bars, not a magic number:
+     a hard-coded 62px is what left a dead gap when the bar moved. */
+  (function(){
+    var bar=document.querySelector(".bar"), nav=document.getElementById("daynav");
+    function measure(){
+      var r=document.documentElement;
+      if(bar) r.style.setProperty("--barh", Math.round(bar.getBoundingClientRect().height)+"px");
+      if(nav) r.style.setProperty("--navh", Math.round(nav.getBoundingClientRect().height)+"px");
+    }
+    measure();
+    addEventListener("resize",measure);
+    addEventListener("orientationchange",measure);
+    if(window.ResizeObserver && bar) new ResizeObserver(measure).observe(bar);
+  })();
   /* ================= TABS + ROUTER ================= */
   var TABS=["plan","places","story","info"], scrollMem={};
   function paint(tab){
