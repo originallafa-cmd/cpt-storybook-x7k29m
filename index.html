@@ -3,6 +3,14 @@
 <title>Hoor &amp; Alyaz · South Africa</title>
 <meta name="description" content="A mother–daughter Cape Town storybook. Tap any place for directions." />
 <link rel="icon" href="data:," />
+<!-- iPhone: Add to Home Screen. Launches standalone, no Safari chrome. -->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="Hoor &amp; Alyaz" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="theme-color" content="#FBF1DF" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="manifest" href="manifest.webmanifest" />
 <script>/*!
  * GSAP 3.12.5
  * https://gsap.com
@@ -125,6 +133,32 @@ body.book .tabs,body.book .bar{display:none}
 .fcount{font:600 .72rem var(--display);color:var(--ink3);margin-top:8px}
 .noresult{text-align:center;color:var(--ink2);padding:26px 10px;font-size:.92rem}
 .chap.hide,.grp.hide,.rows.hide,.row.hide{display:none}
+
+/* ---- add to home screen ----
+   Same paper, same clay edge, same fonts as everything else. It sits above the
+   tab bar rather than covering the page, and it only ever appears once. */
+.a2hs{position:fixed;left:10px;right:10px;z-index:65;
+  bottom:calc(76px + env(safe-area-inset-bottom,0px) + 10px);
+  display:flex;align-items:center;gap:11px;padding:11px 12px;
+  background:var(--card) var(--paper-img) 0 0/300px repeat;
+  border:3px solid var(--edge);border-radius:var(--r);box-shadow:var(--clay);
+  transform:translateY(140%);opacity:0;pointer-events:none;
+  transition:transform .55s var(--ease-spring),opacity .35s var(--ease-out)}
+.a2hs.on{transform:translateY(0);opacity:1;pointer-events:auto}
+.a2hs-ic{width:44px;height:44px;flex:none;border-radius:12px;overflow:hidden;
+  border:2px solid var(--edge);box-shadow:var(--clay-sm)}
+.a2hs-ic img{width:100%;height:100%;object-fit:cover;display:block}
+.a2hs-b{flex:1;min-width:0}
+.a2hs-b b{display:block;font-family:var(--display);font-size:.95rem;color:var(--ink);line-height:1.2}
+.a2hs-b small{display:block;font-size:.78rem;color:var(--ink2);margin-top:3px;line-height:1.45}
+.a2hs-b small i{font-style:normal;font-weight:700;color:var(--teal2)}
+.a2hs-b .shr{display:inline-block;width:11px;height:13px;vertical-align:-2px;margin:0 1px;
+  stroke:var(--teal2);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.a2hs-x{width:30px;height:30px;flex:none;border:0;background:none;color:var(--ink3);
+  cursor:pointer;display:grid;place-items:center;border-radius:50%}
+.a2hs-x svg{width:15px;height:15px}
+body.book .a2hs{display:none}
+@media (prefers-reduced-motion:reduce){.a2hs{transition:opacity .3s linear}}
 
 /* ---------- Alyaz's quiz ---------- */
 .quiz{background:var(--card) var(--paper-img) 0 0/300px repeat;border:3px solid var(--edge);
@@ -571,6 +605,7 @@ footer small{font-size:.72rem;color:var(--ink3)}
   <div class="bar-in">
     <div class="mark">Hoor <i>&amp;</i> Alyaz · South Africa</div>
     <a class="btn wide" id="pdf" href="Hoor-and-Alyaz-South-Africa.pdf"
+       target="_blank" rel="noopener"
        download="Hoor and Alyaz - South Africa.pdf"><svg class="ico"><use href="#i-dl"/></svg>PDF</a>
   </div>
 </div>
@@ -691,6 +726,15 @@ footer small{font-size:.72rem;color:var(--ink3)}
   </div>
 </footer></div>
 </main>
+
+<div class="a2hs" id="a2hs" role="status">
+  <span class="a2hs-ic"><img data-k="tm" alt="" /></span>
+  <span class="a2hs-b">
+    <b>Keep this on your home screen</b>
+    <small>Tap <svg class="shr" viewBox="0 0 24 24"><path d="M12 15V3M8.5 6.5 12 3l3.5 3.5"/><path d="M6 12v7a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-7"/></svg> below, then <i>Add to Home Screen</i>. It opens like an app.</small>
+  </span>
+  <button class="a2hs-x" id="a2hsX" type="button" aria-label="Not now"><svg><use href="#i-x"/></svg></button>
+</div>
 
 <nav class="tabs" id="tabs" aria-label="Sections">
   <button data-go="plan"   class="on"><svg class="ico"><use href="#i-cal"/></svg><span>Plan</span></button>
@@ -839,6 +883,9 @@ footer small{font-size:.72rem;color:var(--ink3)}
      file to fetch, so fall back to printing there. */
   (function(){
     var a=document.getElementById("pdf");
+    /* Launched from the home screen there is no browser chrome and no back
+       button, so anything that navigates away has to leave for Safari. */
+    if(window.navigator.standalone===true){ a.removeAttribute("download"); }
     if(location.protocol==="file:"){
       a.removeAttribute("href"); a.removeAttribute("download");
       a.setAttribute("role","button");
@@ -1050,6 +1097,34 @@ footer small{font-size:.72rem;color:var(--ink3)}
       if(window.gsap && !reduce) window.gsap.fromTo(box.firstChild,{opacity:0,y:10},{opacity:1,y:0,duration:.4});
     }
     paint();
+  })();
+
+  /* ---- add to home screen ----
+     iPhone only, and only when it would actually work: Safari can do it,
+     Chrome and in-app browsers on iOS cannot. Never shown once she has already
+     installed it, and never shown twice. */
+  (function(){
+    var el=document.getElementById("a2hs"); if(!el) return;
+    var ua=navigator.userAgent;
+    var isIOS=/iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+    var standalone=window.navigator.standalone===true ||
+                   (window.matchMedia && matchMedia("(display-mode: standalone)").matches);
+    /* CriOS/FxiOS/EdgiOS and the in-app browsers have no Add to Home Screen */
+    var canInstall=isIOS && !/CriOS|FxiOS|EdgiOS|OPiOS|FBAN|FBAV|Instagram|Line\//.test(ua);
+    var seen; try{ seen=localStorage.getItem("sa-a2hs"); }catch(e){}
+    function close(){
+      el.classList.remove("on");
+      try{ localStorage.setItem("sa-a2hs","1"); }catch(e){}
+    }
+    document.getElementById("a2hsX").addEventListener("click",close);
+    if(!canInstall || standalone || seen) return;
+    /* let her land on the trip first, and only on the Plan tab */
+    setTimeout(function(){
+      if(document.body.classList.contains("book")) return;
+      if(currentTab()!=="plan") return;
+      el.classList.add("on");
+      setTimeout(close, 14000);           /* it bows out on its own */
+    }, 3500);
   })();
   /* ---- animal hunt ---- */
   var animals=[
