@@ -102,7 +102,10 @@ body.book .tabs,body.book .bar{display:none}
 .search{display:flex;align-items:center;gap:9px;background:var(--card);border:2px solid var(--edge);
   border-radius:14px;padding:0 12px;height:46px;box-shadow:var(--clay-sm)}
 .search .ico{color:var(--ink3);flex:none}
-.search input{flex:1;min-width:0;border:0;background:none;outline:none;font:600 .95rem var(--body);color:var(--ink)}
+/* 16px exactly: any smaller and iOS Safari zooms the page on focus and never
+   zooms back out. */
+.search input{flex:1;min-width:0;border:0;background:none;outline:none;
+  font:600 16px var(--body);color:var(--ink)}
 .search input::placeholder{color:var(--ink3);font-weight:400}
 .search button{border:0;background:none;color:var(--ink3);cursor:pointer;padding:6px;display:grid;place-items:center}
 /* a class selector beats the UA's [hidden]{display:none} - restore it */
@@ -457,7 +460,6 @@ footer small{font-size:.72rem;color:var(--ink3)}
   #print,#print *{opacity:1!important;transform:none!important;filter:none!important;
     animation:none!important;transition:none!important;visibility:visible!important}
 }
-
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -502,7 +504,8 @@ footer small{font-size:.72rem;color:var(--ink3)}
 <div class="bar no-print">
   <div class="bar-in">
     <div class="mark">Hoor <i>&amp;</i> Alyaz · South Africa</div>
-    <button class="btn wide" id="pdf"><svg class="ico"><use href="#i-dl"/></svg>PDF</button>
+    <a class="btn wide" id="pdf" href="Hoor-and-Alyaz-South-Africa.pdf"
+       download="Hoor and Alyaz - South Africa.pdf"><svg class="ico"><use href="#i-dl"/></svg>PDF</a>
   </div>
 </div>
 
@@ -746,22 +749,36 @@ footer small{font-size:.72rem;color:var(--ink3)}
     }
     cur=n; stack();
   }
-  function openBook(){ body.classList.add("book"); cur=0; stack(); }
+  /* where closing the book lands: the first read hands her to the trip,
+     the Story tab hands her back to where she tapped from. */
+  var bookExit="plan";
+  function openBook(from){ bookExit=from||"plan"; body.classList.add("book"); cur=0; stack(); }
   function closeBook(){
     body.classList.remove("book");
-    if(typeof goTab==="function") goTab("story",true);
+    if(typeof goTab==="function") goTab(bookExit,true);
     try{ localStorage.setItem("sa-seen","1"); }catch(e){}
     hero();
   }
-  var sb=document.getElementById("openStory"); if(sb) sb.addEventListener("click",openBook);
+  var sb=document.getElementById("openStory");
+  if(sb) sb.addEventListener("click",function(){ openBook("story"); });
   var seen; try{ seen=localStorage.getItem("sa-seen"); }catch(e){}
-  if(!seen && !reduce) openBook(); else { try{localStorage.setItem("sa-seen","1")}catch(e){} }
+  if(!seen) openBook("plan"); else { try{localStorage.setItem("sa-seen","1")}catch(e){} }
 
   /* No theme switch: this is a watercolour storybook and it is always light.
      Clear any data-theme a previous visit may have stored. */
   root.removeAttribute("data-theme");
   try{ localStorage.removeItem("sa-t"); }catch(e){}
-  document.getElementById("pdf").addEventListener("click",function(){ window.print(); });
+  /* The PDF is a real file sitting next to the page, so the button downloads it
+     instead of opening the printer. A saved copy of this page has no sibling
+     file to fetch, so fall back to printing there. */
+  (function(){
+    var a=document.getElementById("pdf");
+    if(location.protocol==="file:"){
+      a.removeAttribute("href"); a.removeAttribute("download");
+      a.setAttribute("role","button");
+      a.addEventListener("click",function(e){ e.preventDefault(); window.print(); });
+    }
+  })();
 
   /* ---- day nav ---- */
   /* .day carries scroll-margin-top:126px so the heading clears the sticky bars.
