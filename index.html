@@ -101,27 +101,41 @@ body.book #book{display:block}
 body.book{overflow:hidden;height:100vh}
 body:not(.book){overflow-x:hidden}
 #book .leaf{position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;
-  backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#0F0A05;
-  transition:transform .95s cubic-bezier(.78,0,.16,1)}
+  transition:transform 1.05s cubic-bezier(.62,.02,.24,1)}
 #book .leaf.turned{transform:rotateY(-180deg)}
-#book .leaf > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-#book .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,11,4,.06) 28%,rgba(18,11,4,.55) 62%,rgba(18,11,4,.92))}
-#book .spine{position:absolute;left:0;top:0;bottom:0;width:16px;z-index:3;
-  background:linear-gradient(90deg,rgba(0,0,0,.55),rgba(0,0,0,.12) 60%,transparent)}
-#book .pg{position:absolute;left:0;right:0;bottom:0;padding:0 22px 104px;color:#FFF3E2;z-index:5;pointer-events:none}
-#book .pg .num{font-family:var(--display);font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;opacity:.6;margin-bottom:.5em}
-#book .pg h2{font-family:var(--display);font-size:clamp(1.65rem,7.4vw,2.25rem);color:#FFF3E2;margin:0 0 .32em;
-  text-shadow:0 3px 26px rgba(0,0,0,.65)}
-#book .pg p{font-size:1.02rem;line-height:1.62;max-width:34ch;text-shadow:0 2px 18px rgba(0,0,0,.75)}
-#book .leaf.cv .pg{text-align:center;padding-bottom:120px}
+/* every page has TWO sides, so the turn is visible going forward as well as back */
+#book .face{position:absolute;inset:0;overflow:hidden;background:#FBF3E3;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden}
+#book .front{display:flex;flex-direction:column;justify-content:center;padding-bottom:92px}
+#book .back{transform:rotateY(180deg);background:linear-gradient(270deg,#F7EDDA,#E9DDC2);
+  box-shadow:inset -22px 0 34px -20px rgba(58,42,30,.45)}
+#book .back::after{content:"";position:absolute;inset:26px;border:2px dashed rgba(160,132,106,.30);border-radius:14px}
+/* the illustration is shown WHOLE (contain), like a picture pasted on the page */
+#book .art{flex:0 1 auto;min-height:0;display:grid;place-items:center;padding:18px 20px 16px}
+#book .art img{max-width:100%;max-height:54vh;width:auto;height:auto;object-fit:contain;
+  border-radius:10px;box-shadow:0 12px 30px -12px rgba(58,42,30,.55),0 0 0 1px rgba(58,42,30,.10)}
+#book .pg{flex:none;padding:2px 24px 0;color:#3A2A1E;pointer-events:none}
+#book .pg .num{font-family:var(--display);font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;
+  color:#A0846A;margin-bottom:.45em}
+#book .pg h2{font-family:var(--display);font-size:clamp(1.5rem,6.6vw,2rem);color:#3A2A1E;margin:0 0 .28em;text-shadow:none}
+#book .pg p{font-size:.98rem;line-height:1.6;max-width:36ch;color:#6B5744;text-shadow:none}
+#book .spine{position:absolute;left:0;top:0;bottom:0;width:18px;z-index:3;
+  background:linear-gradient(90deg,rgba(58,42,30,.30),rgba(58,42,30,.08) 55%,transparent)}
+/* the cover stays full-bleed */
+#book .leaf.cv .front{display:block}
+#book .leaf.cv .bleed{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#book .leaf.cv .veil{position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(18,11,4,.10) 30%,rgba(18,11,4,.60) 66%,rgba(18,11,4,.92))}
+#book .leaf.cv .pg{position:absolute;left:0;right:0;bottom:0;text-align:center;padding:0 26px 120px;color:#FFF3E2}
 #book .leaf.cv .pre{font-family:var(--display);font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;opacity:.85}
-#book .leaf.cv h2{font-size:clamp(2.3rem,11vw,3.4rem);margin:.24em 0 .2em}
-#book .leaf.cv p{margin:0 auto}
+#book .leaf.cv h2{font-size:clamp(2.3rem,11vw,3.4rem);margin:.24em 0 .2em;color:#FFF3E2;
+  text-shadow:0 3px 26px rgba(0,0,0,.65)}
+#book .leaf.cv p{color:#FFF3E2;margin:0 auto;text-shadow:0 2px 18px rgba(0,0,0,.75)}
 #book .cta{pointer-events:auto;font-family:var(--display);font-weight:600;font-size:1rem;color:#2C1D10;
-  background:#FFF3E2;border:0;border-radius:999px;padding:.9em 1.9em;cursor:pointer;display:block;margin:20px auto 0;
-  box-shadow:0 6px 0 -1px #C9A97C,0 16px 26px -10px rgba(0,0,0,.6);
+  background:var(--gold);border:0;border-radius:999px;padding:.9em 1.9em;cursor:pointer;display:block;margin:18px auto 0;
+  box-shadow:0 6px 0 -1px #A8701A,0 16px 26px -10px rgba(0,0,0,.45);
   transition:transform var(--dur-press) var(--ease-out),box-shadow var(--dur-press) var(--ease-out)}
-#book .cta:active{transform:translateY(4px);box-shadow:0 2px 0 -1px #C9A97C}
+#book .cta:active{transform:translateY(4px);box-shadow:0 2px 0 -1px #A8701A}
 #book .tapL,#book .tapR{position:absolute;top:0;bottom:92px;z-index:40;cursor:pointer;-webkit-tap-highlight-color:transparent}
 #book .tapL{left:0;width:34%} #book .tapR{right:0;width:66%}
 #book .ui{position:absolute;left:0;right:0;bottom:0;z-index:60;
@@ -492,9 +506,16 @@ footer small{font-size:.72rem;color:var(--ink3)}
     PAGES.forEach(function(pg,i){
       var L=document.createElement("div");
       L.className="leaf"+(pg.cover?" cv":"");
-      L.innerHTML='<img src="'+pg.img+'" alt=""/><div class="veil"></div><div class="spine"></div>'+
-        '<div class="pg">'+(pg.cover?'<div class="pre">'+pg.pre+'</div>':'<div class="num">Page '+i+' of '+(PAGES.length-1)+'</div>')+
-        '<h2>'+pg.t+'</h2><p>'+pg.p+'</p>'+(pg.cta?'<button class="cta">'+pg.cta+'</button>':'')+'</div>';
+      var media = pg.cover
+        ? '<img class="bleed" src="'+pg.img+'" alt=""/><div class="veil"></div>'
+        : '<div class="art"><img src="'+pg.img+'" alt=""/></div>';
+      var head = pg.cover ? '<div class="pre">'+pg.pre+'</div>'
+                          : '<div class="num">Page '+i+' of '+(PAGES.length-1)+'</div>';
+      L.innerHTML='<div class="face front">'+media+
+        '<div class="pg">'+head+'<h2>'+pg.t+'</h2><p>'+pg.p+'</p>'+
+        (pg.cta?'<button class="cta">'+pg.cta+'</button>':'')+'</div>'+
+        '<div class="spine"></div></div>'+
+        '<div class="face back"></div>';
       book.appendChild(L); leaves.push(L);
       if(pg.cta) L.querySelector(".cta").addEventListener("click",function(e){ e.stopPropagation(); closeBook(); });
     });
